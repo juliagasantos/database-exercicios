@@ -105,7 +105,7 @@ FROM Produto
 WHERE nome LIKE '%pro%'
 ORDER BY estoque DESC;
 
---JOIN (Juntando Tabelas)
+--INNER JOIN (Juntando Tabelas)
 SELECT CAT.id_categoria,
        CAT.nome,
 	   CAT.id_departamento,
@@ -113,6 +113,31 @@ SELECT CAT.id_categoria,
 FROM Categoria AS CAT
 INNER JOIN Departamento AS DEP
 ON DEP.id_departamento = CAT.id_departamento
+
+SELECT CAT.id_categoria,
+       CAT.nome,
+	   CAT.id_departamento,
+	   DEP.nome
+FROM Categoria AS CAT
+RIGHT JOIN Departamento AS DEP
+ON DEP.id_departamento = CAT.id_departamento
+
+SELECT CAT.id_categoria,
+       CAT.nome,
+	   CAT.id_departamento,
+	   DEP.nome
+FROM Categoria AS CAT
+LEFT JOIN Departamento AS DEP
+ON DEP.id_departamento = CAT.id_departamento
+
+SELECT CAT.id_categoria,
+       CAT.nome,
+	   CAT.id_departamento,
+	   DEP.nome
+FROM Categoria AS CAT
+FULL JOIN Departamento AS DEP
+ON DEP.id_departamento = CAT.id_departamento
+
 
 --SELECIONANDO PRODUTO DACATEFORIA ESPECÍFICA
 SELECT PRO.id_produto,
@@ -124,3 +149,76 @@ ON PRC.id_produto =PRO.id_produto
 INNER JOIN Categoria AS CAT
 On CAT.id_categoria = PRC.id_categoria
 WHERE CAT.nome = 'Roupas Esportivas'
+
+SELECT * FROM Departamento;
+SELECT * FROM Categoria;
+
+
+INSERT INTO Departamento (nome) VALUES ('PET')
+INSERT INTO Departamento (nome) VALUES ('GAMES')
+INSERT INTO Categoria (nome) VALUES ('Categoria ABC')
+INSERT INTO Categoria (nome) VALUES ('Categoria XYZ')
+
+
+--IS NULL
+--CATEGORIA SEM DEPARTAMENTO
+SELECT * FROM  Categoria WHERE id_departamento IS NULL
+--CATEGORIA COM DEPARTAMENTO
+SELECT * FROM  Categoria WHERE id_departamento IS NOT NULL
+--DEPARTAMENTO SEM CATEGORIA
+SELECT DEP.id_departamento,
+       DEP.nome AS Depto
+FROM Categoria AS CAT
+RIGHT JOIN Departamento AS DEP
+ON DEP.id_departamento = CAT.id_departamento
+WHERE CAT.id_categoria IS NULL
+
+
+--FUNÇÕES DE AGREGAÇÃO
+/*
+COUNT = CONTAMGEM
+SUM = SOMA
+MAX = VALOR MÁXIMO
+MIN = VALOR MÍNIMO
+AVG = MÉDIA
+*/
+SELECT COUNT (id_produto) AS Qtde,
+       SUM (Estoque) AS totalEstoque,
+	   MIN (Preco) AS menorPreco,
+	   MAX (Preco) AS maiorPreco,
+	   AVG (Preco) AS precoMedio
+FROM Produto
+
+--ADD A COLUNA SITUAÇÃO NO PRODUTO
+ALTER TABLE Produto ADD situacao VARCHAR(10)
+--ATUALIZANDO OS PRODUTOS NOVOS
+UPDATE Produto SET situacao = 'Novo'
+WHERE id_produto IN (1,3,5,7)
+UPDATE Produto SET situacao = 'Usado'
+WHERE id_produto IN (2,4,6,8)
+SELECT * FROM  Produto
+
+--USANDO FUNÇÕES DE AGREGAÇÃO COM AGRUPAMENTO
+SELECT situacao, 
+       COUNT(id_produto) AS Qtde
+FROM Produto
+GROUP BY situcao
+
+--1--
+SELECT TOP 3 nome, preco FROM Produto ORDER BY preco ASC;
+--2--
+SELECT TOP 2 nome, estoque FROM Produto ORDER BY estoque ASC;
+--3--
+SELECT nome, preco FROM Produto WHERE ehLancamento = 1 ;
+--4--
+SELECT nome, preco FROM Produto WHERE preco > 5000;
+--5--
+SELECT nome, estoque FROM Produto WHERE estoque BETWEEN 50 AND 150;
+--6--
+SELECT * FROM Produto ORDER BY preco ASC;
+--7--
+SELECT nome, categoria FROM Produto WHERE estoque BETWEEN 50 AND 150;
+--8--
+
+
+SELECT * FROM  Produto
