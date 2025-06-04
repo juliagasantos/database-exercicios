@@ -217,8 +217,26 @@ SELECT nome, estoque FROM Produto WHERE estoque BETWEEN 50 AND 150;
 --6--
 SELECT * FROM Produto ORDER BY preco ASC;
 --7--
-SELECT nome, categoria FROM Produto WHERE estoque BETWEEN 50 AND 150;
+SELECT Produto.nome AS NomeProduto, 
+	   CAT.nome AS NomeCategoria,
+	   DEP.nome AS NomeDepartamento
+FROM Produto
+INNER JOIN ProdutoCategoria AS PROCAT
+INNER JOIN Categoria AS CAT
+INNER JOIN Departamento AS DEP
+ON DEP.id_departamento = CAT.id_departamento
+ON CAT.id_categoria = PROCAT.id_categoria
+ON Produto.id_produto = PROCAT.id_produto;
 --8--
+SELECT sum(estoque),
+       CAT.nome
+FROM Produto
+INNER JOIN ProdutoCategoria AS PROCAT
+INNER JOIN Categoria AS CAT
+ON CAT.id_categoria = PROCAT.id_categoria
+ON Produto.id_produto = PROCAT.id_produto GROUP BY CAT.nome;
 
 
+SELECT * FROM  Categoria
 SELECT * FROM  Produto
+SELECT * FROM  ProdutoCategoria
