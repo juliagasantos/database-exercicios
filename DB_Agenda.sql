@@ -23,7 +23,9 @@ bairro VARCHAR(200)
 CREATE TABLE Telefone(
 id_telefone INT PRIMARY KEY IDENTITY,
 ddd VARCHAR(2),
+numero VARCHAR(11),
 tipo VARCHAR(10),
 ehWhatsapp BIT,
 id_contato INT FOREIGN KEY REFERENCES Contato(id_contato)
 );
+
