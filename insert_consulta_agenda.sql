@@ -110,6 +110,18 @@ WHERE tipo = 'Celular';
 SELECT 
   (SELECT COUNT(*) FROM Telefone WHERE ehWhatsapp = 1) AS total_whatsapp,
   (SELECT COUNT(*) FROM Telefone WHERE ehWhatsapp = 0) AS total_nao_whatsapp;
+---ou---
+SELECT ehWhatsapp,
+       COUNT(id_contato) AS QTDE
+FROM Telefone
+GROUP BY ehWhatsapp;
+---ou---
+SELECT CASE WHEN ehWhatsapp = 0 THEN 'Não possui' ELSE 'Possui' END AS Whatsapp,
+         COUNT (id_telefone) AS QTDE
+FROM Telefone
+GROUP BY ehWhatsapp;
+
+SELECT * FROM Telefone
 --17--
 SELECT TOP 1 Contato.nome, COUNT(Telefone.numero) AS totalTelefones
 FROM Contato 
@@ -121,10 +133,15 @@ SELECT
   (SELECT TOP 1 dataNascimento FROM Contato ORDER BY dataNascimento DESC) AS dataMaisRecente,
   (SELECT TOP 1 dataNascimento FROM Contato ORDER BY dataNascimento ASC) AS dataMaisAntiga;
 
+SELECT MIN(dataNascimento) AS MaisAntiga,
+       MAX(dataNascimento) AS MaisRecente
+FROM Contato;
 
 -----Desafio extra-----
 --19--
 SELECT * FROM Contato WHERE MONTH(dataNascimento) = 6;
+
+SELECT * FROM Contato WHERE MONTH(dataNascimento) = MONTH(GETDATE());
 --20--
 SELECT nome, Telefone.numero, tipo FROM Contato
 INNER JOIN Telefone
