@@ -115,3 +115,17 @@ SELECT COUNT(*) AS QTDEConfirmado FROM Agendamento
 INNER JOIN StatusAgendamento
 ON StatusAgendamento.IdStatusAgendamento = Agendamento.IdStatusAgendamento
 WHERE StatusAgendamento.Nome = 'Confirmado';
+
+
+SELECT * FROM AgendamentoServico
+SELECT * FROM Agendamento
+
+--Abrindo transacao
+DELETE FROM AgendamentoServico --WHERE, IsAgendamento = 4
+DELETE FROM Agendamento --WHERE, IsAgendamento = 4
+
+--Confirmar transacao
+COMMIT
+
+--Desfazer transacao
+ROLLBACK
